@@ -1,0 +1,9 @@
+---
+- name: Update openssl
+  package: name=openssl state=latest
+
+- name: update sshd
+  package: name=openssl-libs state=latest
+
+- name: update kernel
+  package: name=kernel state=latest
