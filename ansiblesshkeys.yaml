@@ -1,0 +1,22 @@
+---
+- name: Create an ansible group for passwordless sudo
+  group:
+      name: ansible
+      state: present
+
+- name: Ensure the ansible group has passwordless sudo access
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%ansible'
+    line: '%ansible ALL=(ALL) NOPASSWD: ALL'
+
+- name: Ensure ansible user is created and in the group.
+  user: name=ansible groups=ansible append=yes state=present createhome=yes
+
+# Oddball path for public key, due to the fact that I use the private
+# key on both Mac and Linux, so this path works regardless.
+- name: Set up authorized keys
+  authorized_key: user=ansible key="{{item}}"
+  with_file:
+    - /usr/local/private/dfloyd888/ansiblekey/pub/ansiblekey.pub

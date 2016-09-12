@@ -1,4 +1,8 @@
 ---
+
+#Core packages that must be at the latest code, barring some conflict or
+#other restriction.
+
 - name: Update openssl
   package: name=openssl state=latest
 
